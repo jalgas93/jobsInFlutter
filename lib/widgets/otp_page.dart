@@ -145,7 +145,7 @@ class _OtpPageState extends State<OtpPage> {
                               .copyWith(fontWeight: FontWeight.w400),
                         ),
                         Text(
-                          '30 секунд',
+                          '${count} секунд',
                           //'30 секунд:''$count',
                           style: Theme.of(context)
                               .textTheme

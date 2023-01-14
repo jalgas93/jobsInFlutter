@@ -11,6 +11,7 @@ import 'package:latlng/latlng.dart';
 import 'package:geolocator/geolocator.dart';
 import '../../widgets/otp_page.dart';
 import '../../widgets/phone_page.dart';
+import '../serviceCard/service_card.dart';
 import 'auth_bloc/auth_bloc.dart';
 
 class AuthPage extends StatefulWidget {
@@ -26,8 +27,11 @@ class AuthPage extends StatefulWidget {
 class _AuthPageState extends State<AuthPage> {
   PageController? _controller = PageController();
   int _pageIndex = 0;
-  String locationMessage = "Current location of the User";
+  String locationMessage = "Для работы приложения ${'\n'} "
+      "разрешите доступ к ${'\n'}геолокации в настройках ${'\n'} "
+      "телефона ";
   late double lang;
+
   late double latit;
 
   @override
@@ -37,6 +41,8 @@ class _AuthPageState extends State<AuthPage> {
     _pageIndex = widget.page;
     super.initState();
   }
+
+
 
   TextEditingController _phoneController = TextEditingController();
   TextEditingController _otpController = TextEditingController();
@@ -50,10 +56,10 @@ class _AuthPageState extends State<AuthPage> {
       bloc: context.watch<AuthBloc>(),
       listener: (_, state) {
         if (state is LoggedInState) {
-          _controller!.animateToPage(2,
+          _controller!.animateToPage(3,
               duration: Duration(milliseconds: 200), curve: Curves.ease);
           setState(() {
-            _pageIndex = 2;
+            _pageIndex = 3;
           });
         }
       },
@@ -75,7 +81,9 @@ class _AuthPageState extends State<AuthPage> {
                       otpController: _otpController,
                       bloc: context.watch<AuthBloc>(),
                       phoneNumber: _phoneController.text),
-                  GeolocatorWidget(),
+                  GeolocatorWidget(
+                    locationMessage: locationMessage,
+                  ),
                   SetUpAccount(
                     firstnameController: _firstnameController,
                     lastnameController: _lastnameController,
@@ -83,14 +91,17 @@ class _AuthPageState extends State<AuthPage> {
                 ],
               ),
             ),
-            _buildFloatActionButton(state, context)
+            _buildFloatActionButton(state, context),
+           // _buildTabBar(),
+          //  a(),
+
           ],
         );
       },
     );
   }
 
-  Future<Position> getCurrentLocation2() async {
+  Future<Position> getCurrentLocation() async {
     bool serviceEnable = await Geolocator.isLocationServiceEnabled();
     if (!serviceEnable) {
       return Future.error('Location service is disabled');
@@ -110,18 +121,68 @@ class _AuthPageState extends State<AuthPage> {
   }
 
 
-  // onPressed: () {
-  // getCurrentLocation2().then((value) {
-  // lang = double.parse('${value.longitude}');
-  // latit = double.parse('${value.latitude}');
-  // setState(() {
-  // locationMessage = 'longitude:$lang, latitude:$latit';
-  // });
-  // print('jalgas' + locationMessage);
-  // Navigator.push(context,
-  // MaterialPageRoute(builder: (context) => SetUpAccount()));
-  // });
-  // },
+// Positioned a(){
+//     return Positioned(child: Container(
+//       padding:EdgeInsets.all(10),
+//       child:Stack(
+//         children: <Widget>[
+//           Positioned(
+//             top: 30,
+//             left: 30,
+//             height:250,
+//             width: 250,
+//             child: Container(
+//               width: 150,
+//               height: 150,
+//               color: Colors.green[300],
+//               child: Text(
+//                 'Green',
+//                 style: TextStyle(
+//                     color: Colors.white,
+//                     fontSize: 20
+//                 ),
+//               ),
+//             ),
+//           ),
+//           Positioned(
+//             top: 70,
+//             left:60,
+//             width: 250,
+//             height: 250,
+//             child: Container(
+//               width:150,
+//               height:150,
+//               color: Colors.red[400],
+//               child: Text(
+//                 'Red',
+//                 style: TextStyle(color: Colors.white,
+//                     fontSize: 20),
+//               ),
+//             ),
+//           ),
+//           Positioned(
+//             top: 130,
+//             left: 90,
+//             width: 250,
+//             height: 250,
+//             child: Container(
+//               width: 80,
+//               height: 80,
+//               color: Colors.purple[300],
+//               child: Text(
+//                 'Purple',
+//                 style: TextStyle(color: Colors.white,
+//                     fontSize: 20),
+//               ),
+//             ),
+//           ),
+//         ],
+//       ),
+//     ),
+//     );
+// }
+
+
 
   Positioned _buildFloatActionButton(AuthState state, BuildContext context) {
     return Positioned(
@@ -159,11 +220,25 @@ class _AuthPageState extends State<AuthPage> {
                       _pageIndex = 2;
                     });
                   } else if (_pageIndex == 2) {
+                    getCurrentLocation().then((value) {
+                      lang = double.parse('${value.longitude}');
+                      latit = double.parse('${value.latitude}');
+                      setState(() {
+                        locationMessage = '${latit},${lang}';
+                      });
+                      print('jalgas' + locationMessage);
+                    });
+                    setState(() {
+                      _pageIndex = 3;
+                    });
+                  } else if (_pageIndex == 3) {
                     BlocProvider.of<AuthBloc>(context).add(
                       SignUpEvent(
                         _firstnameController.text,
                         _lastnameController.text,
                         state is LoggedInState ? state.uid : widget.uid,
+                        true,
+                        LatLng(latit, lang),
                       ),
                     );
                   }
@@ -181,3 +256,11 @@ class _AuthPageState extends State<AuthPage> {
     });
   }
 }
+//
+// onPageChanged: (page) {
+// if (page == _allPages.length &&
+// (_controller.index + 1) < _controller.length) {
+// _controller.animateTo(_controller.index + 1);
+// }
+// },
+// itemCount: _allPages.length + 1,

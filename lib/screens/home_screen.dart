@@ -16,9 +16,11 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  final GlobalKey<ScaffoldState> _key = GlobalKey();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _key,
       backgroundColor: AppStyle.mainColor,
       appBar: AppBar(
         elevation: 1.0,
@@ -29,6 +31,38 @@ class _HomeScreenState extends State<HomeScreen> {
         centerTitle: true,
         backgroundColor: AppStyle.mainColor,
       ),
+      drawer: Drawer(
+          child: Column(
+        children: [
+          ListTile(
+            leading: CircleAvatar(
+              radius: 28,
+              backgroundColor: Colors.blueGrey,
+              child: CircleAvatar(
+                radius: 50,
+                backgroundImage: AssetImage('assets/images/joker.jpg'),
+              ),
+            ),
+            title: Text(
+              'Joaquin Phoenix',
+              style: TextStyle(
+                color: Colors.black,
+                fontFamily: 'Roboto',
+                fontWeight: FontWeight.bold,
+                fontSize: 14,
+              ),
+            ),
+            subtitle: Text(
+              "You wouldn't get it",
+              style: TextStyle(
+                  color: Colors.black,
+                  fontFamily: 'Roboto',
+                  fontWeight: FontWeight.w400,
+                  fontSize: 10.0),
+            ),
+          )
+        ],
+      )),
       body: Padding(
         padding: EdgeInsets.all(16),
         child: Column(
@@ -72,13 +106,19 @@ class _HomeScreenState extends State<HomeScreen> {
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: () {
-          //  Navigator.push(context,
-          // MaterialPageRoute(builder: (context) => NoteEditorScreen()));
+      // floatingActionButton: FloatingActionButton.extended(
+      //   onPressed: () {
+      //     //  Navigator.push(context,
+      //     // MaterialPageRoute(builder: (context) => NoteEditorScreen()));
+      //   },
+      //   label: Text("Add note"),
+      //   icon: Icon(Icons.add),
+      // ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: (){
+          _key.currentState!.openDrawer();
         },
-        label: Text("Add note"),
-        icon: Icon(Icons.add),
+        child: Icon(Icons.menu,color: Colors.black,),
       ),
     );
   }

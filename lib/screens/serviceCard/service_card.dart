@@ -13,6 +13,7 @@ Widget ServicesCard(
     elevation: 0.0,
     child: InkWell(
       onTap: () {
+        print('jalgas${hotelName}');
         // ExtendedNavigator.of(context)
         //     .push(Routes.mapPage);
       },

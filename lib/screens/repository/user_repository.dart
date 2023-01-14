@@ -25,18 +25,19 @@ class UserRepository {
   }
 
   Future<User?> setUpAccount(
-      String? uid, String firstname, String lastname,bool? isActive,LatLng? latLng) async {
+      String? uid, String firstname, String lastname,bool? isActive,LatLng? latlng) async {
     await FirebaseFirestore.instance.collection('users').doc(uid).update({
       'firstname': firstname,
       'lastname': lastname,
       'isVerified': true,
-      'isActive': false,
+      'isActive': isActive,
       'latlng': {
-        'lat': latLng?.latitude,
-        'lng':latLng?.longitude
+        'lat': latlng?.latitude,
+        'lng':latlng?.longitude
       }
     });
     userNotifier.value = await UserRepository.instance!.getUser(uid);
+   // userNotifier.notifyListeners();
     return userNotifier.value;
   }
 
@@ -49,6 +50,13 @@ class UserRepository {
     } else {
       Map<String, dynamic> data = userSnapshot.data() as Map<String, dynamic>;
       print(data['firstname']);
+      print(data['lastname']);
+      //print(data['image']);
+      print(data['isVerified']);
+      print(data['creatAt']);
+      print(data['latlng']);
+      print(data['uid']);
+
       userNotifier.value = User.fromjson(uid, data);
     }
     return userNotifier.value;
@@ -70,4 +78,13 @@ class UserRepository {
       }
     }
   }
+
+  //  var myUser = User();
+  // Future<User?> getUserInfo()async{
+  //   String uid = await auth.FirebaseAuth.instance.currentUser!.uid;
+  //   await FirebaseFirestore.instance.collection('users').doc(uid).snapshots().listen((event) {
+  //
+  //   })
+  // }
+
 }

@@ -2,29 +2,24 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_jobs/screens/utils/images_assets.dart';
 import 'package:flutter_map/flutter_map.dart';
-import 'package:latlong2/latlong.dart';
 import 'package:http/http.dart' as http;
 import 'package:geolocator/geolocator.dart';
-import 'package:open_street_map_search_and_pick/widgets/wide_button.dart';
+import 'package:latlong2/latlong.dart';
 
-import 'example.dart';
-import 'example.dart';
+import '../home_screen.dart';
+import '../profil/profil_persons.dart';
+import '../serviceCard/service_card.dart';
 
 class OpenStreetMapExample extends StatefulWidget {
-  //final LatLong center;
-
-  //final void Function(PickedData pickedData) onPicked;
+  final LatLng center;
   Color buttonColor;
-
-//  String buttonText;
 
   OpenStreetMapExample({
     Key? key,
-    //required this.center,
-    // required this.onPicked,
-    this.buttonColor = Colors.blue,
-    // this.buttonText = 'Set Current Location',
+    required this.center,
+    this.buttonColor = Colors.white,
   }) : super(key: key);
 
   @override
@@ -34,53 +29,21 @@ class OpenStreetMapExample extends StatefulWidget {
 class _OpenStreetMapExampleState extends State<OpenStreetMapExample> {
   MapController _mapController = MapController();
   final TextEditingController _searchController = TextEditingController();
-  final FocusNode _focusNode = FocusNode();
-  List<OSMdata> _options = <OSMdata>[];
-  Timer? _debounce;
+  final GlobalKey<ScaffoldState> _key = GlobalKey();
 
-  // void setNameCurrentPos() async {
-  //   var client = http.Client();
-  //   double latitude = _mapController.center.latitude;
-  //   double longitude = _mapController.center.longitude;
-  //   if (kDebugMode) {
-  //     print(latitude);
-  //   }
-  //   if (kDebugMode) {
-  //     print(longitude);
-  //   }
-  //   String url =
-  //       'https://nominatim.openstreetmap.org/reverse?format=json&lat=$latitude&lon=$longitude&zoom=18&addressdetails=1';
-  //
-  //   var response = await client.post(Uri.parse(url));
-  //   var decodedResponse =
-  //   jsonDecode(utf8.decode(response.bodyBytes)) as Map<dynamic, dynamic>;
-  //
-  //   _searchController.text =
-  //       decodedResponse['display_name'] ?? "MOVE TO CURRENT POSITION";
-  //   setState(() {});
-  // }
-
-  // void setNameCurrentPosAtInit() async {
-  //   var client = http.Client();
-  //   double latitude = widget.center.latitude;
-  //   double longitude = widget.center.longitude;
-  //   if (kDebugMode) {
-  //     print(latitude);
-  //   }
-  //   if (kDebugMode) {
-  //     print(longitude);
-  //   }
-  //   String url =
-  //       'https://nominatim.openstreetmap.org/reverse?format=json&lat=$latitude&lon=$longitude&zoom=18&addressdetails=1';
-  //
-  //   var response = await client.post(Uri.parse(url));
-  //   var decodedResponse =
-  //   jsonDecode(utf8.decode(response.bodyBytes)) as Map<dynamic, dynamic>;
-  //
-  //   _searchController.text =
-  //       decodedResponse['display_name'] ?? "MOVE TO CURRENT POSITION";
-  //   setState(() {});
-  // }
+  List<String> urls = [
+    "https://resofrance.e"
+        "u/wp-content/uploads/2018/09/hotel-luxe-mandarin-oriental-paris.jpg",
+    "https://lh3.googleusercontent.com/proxy/wTkD1USQGpbVXzZFNLCZBDCL1OQS1bFzSgPa44cHwiheaY9DpoqMdNjBgEJcCIZSQeSkCO-2q5gfuhtnuz4cDhtpansOcWos093YsGvogdQqWnpWlA",
+    "https://images.squarespace-cdn.com/content/v1/57d5245815d5db80eadeef3b/1558864684068-1CX3SZ0SFYZA1DFJSCYD/ke17ZwdGBToddI8pDm48kIpXjvpiLxnd0TWe793Q1fcUqsxRUqqbr1mOJYKfIPR7LoDQ9mXPOjoJoqy81S2I8N_N4V1vUb5AoIIIbLZhVYxCRW4BPu10St3TBAUQYVKcZwk0euuUA52dtKj-h3u7rSTnusqQy-ueHttlzqk_avnQ5Fuy2HU38XIezBtUAeHK/Marataba+Safari+lodge",
+    "https://lh3.googleusercontent.com/proxy/ovCSxeucYYoir_rZdSYq8FfCHPeot49lbYqlk7nXs7sXjqAfbZ2uw_1E9iivLT85LwIZiGSnXuqkdbQ_xKFhd91M7Y05G94d",
+    "https://q-xx.bstatic.com/xdata/images/hotel/max500/216968639.jpg?k=a65c7ca7141416ffec244cbc1175bf3bae188d1b4919d5fb294fab5ec8ee2fd2&o=",
+    "https://hubinstitute.com/sites/default/files/styles/1200x500_crop/public/2018-06/photo-1439130490301-25e322d88054.jpeg?h=f720410d&itok=HI5-oD_g",
+    "https://cdn.contexttravel.com/image/upload/c_fill,q_60,w_2600/v1549318570/production/city/hero_image_2_1549318566.jpg",
+    "https://www.shieldsgazette.com/images-i.jpimedia.uk/imagefetch/https://jpgreatcontent.co.uk/wp-content/uploads/2020/04/spain.jpg",
+    "https://www.telegraph.co.uk/content/dam/Travel/2017/November/tunisia-sidi-bou-GettyImages-575664325.jpg",
+    "https://lp-cms-production.imgix.net/features/2018/06/byrsa-hill-carthage-tunis-tunisia-2d96efe7b9bf.jpg"
+  ];
 
   String locationMessage = "Current location of the User";
   late double lang;
@@ -89,11 +52,6 @@ class _OpenStreetMapExampleState extends State<OpenStreetMapExample> {
   @override
   void initState() {
     _mapController = MapController();
-
-    // _mapController.onReady.then((_) {
-    //   setNameCurrentPosAtInit();
-    // });
-
     _mapController.mapEventStream.listen((event) async {
       if (event is MapEventMoveEnd) {
         var client = http.Client();
@@ -103,9 +61,7 @@ class _OpenStreetMapExampleState extends State<OpenStreetMapExample> {
         var response = await client.post(Uri.parse(url));
         var decodedResponse = jsonDecode(utf8.decode(response.bodyBytes))
             as Map<dynamic, dynamic>;
-
         _searchController.text = decodedResponse['display_name'];
-
         setState(() {});
       }
     });
@@ -121,165 +77,315 @@ class _OpenStreetMapExampleState extends State<OpenStreetMapExample> {
 
   @override
   Widget build(BuildContext context) {
-    OutlineInputBorder inputBorder = OutlineInputBorder(
-      borderSide: BorderSide(color: widget.buttonColor),
-    );
-    OutlineInputBorder inputFocusBorder = OutlineInputBorder(
-      borderSide: BorderSide(color: widget.buttonColor, width: 3.0),
-    );
-
     // String? _autocompleteSelection;
     return SafeArea(
-      child: Stack(
-        children: [
-          Positioned.fill(
-              child: FlutterMap(
-            options: MapOptions(
-               // center: LatLng(widget.center.latitude, widget.center.longitude),
-                zoom: 15.0,
-                maxZoom: 18,
-                minZoom: 6),
-            mapController: _mapController,
-            layers: [
-              TileLayerOptions(
-                urlTemplate:
-                    "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
-                subdomains: ['a', 'b', 'c'],
-                // attributionBuilder: (_) {
-                //   return Text("© OpenStreetMap contributors");
-                // },
+      child: Scaffold(
+        key: _key,
+        drawer: Drawer(
+          child: ListView(
+            padding: const EdgeInsets.all(0),
+            children: [
+              const DrawerHeader(
+                decoration: BoxDecoration(
+                  color: Colors.green,
+                ), //BoxDecoration
+                child: UserAccountsDrawerHeader(
+                  decoration: BoxDecoration(color: Colors.green),
+                  accountName: Text(
+                    "Ungarbaev jalgas",
+                    style: TextStyle(fontSize: 18),
+                  ),
+                  accountEmail: Text("+998973486575"),
+                  currentAccountPictureSize: Size.square(50),
+                  currentAccountPicture: CircleAvatar(
+                    radius: 28,
+                    backgroundColor: Colors.blueGrey,
+                    child: CircleAvatar(
+                      radius: 50,
+                      backgroundImage: AssetImage('assets/images/jalgas.jpg'),
+                    ), //Text
+                  ), //circleAvatar
+                ), //UserAccountDrawerHeader
+              ), //DrawerHeader
+              // ListTile(
+              //   leading: const Icon(Icons.person),
+              //   title: const Text(' Город '),
+              //   onTap: () {
+              //     Navigator.pop(context);
+              //   },
+              // ),
+              ListTile(
+                leading: const Icon(Icons.book),
+                title: const Text(' История заказов '),
+                onTap: () {
+                  Navigator.pop(context);
+                },
+              ),
+              ListTile(
+                leading: const Icon(Icons.workspace_premium),
+                title: const Text(' Помощь '),
+                onTap: () {
+                  Navigator.pop(context);
+                },
+              ),
+              // ListTile(
+              //   leading: const Icon(Icons.video_label),
+              //   title: const Text(' Saved Videos '),
+              //   onTap: () {
+              //     Navigator.pop(context);
+              //   },
+              // ),
+              ListTile(
+                leading: const Icon(Icons.edit),
+                title: const Text(' Настройки '),
+                onTap: () {
+                  Navigator.pop(context);
+                },
+              ),
+              ListTile(
+                leading: const Icon(Icons.logout),
+                title: const Text('Выйти'),
+                onTap: () {
+                  Navigator.pop(context);
+                },
               ),
             ],
-          )),
-          Positioned(
-              // top: MediaQuery.of(context).size.height * 0.5,
-              left: 0,
-              right: 0,
-              child: IgnorePointer(
-                child: Center(
-                  child: StatefulBuilder(builder: (context, setState) {
-                    return Text(
-                      _searchController.text,
-                      textAlign: TextAlign.center,
-                    );
-                  }),
-                ),
-              )),
-          Positioned.fill(
-              child: IgnorePointer(
-            child: Center(
-              child:
-                  Icon(Icons.location_pin, size: 50, color: widget.buttonColor),
-            ),
-          )),
+          ),
+        ),
+        backgroundColor: Colors.blue[50],
+        body: Stack(
+          children: [
+            Positioned(
+                top: 0,
+                bottom: 0,
+                right: 0,
+                left: 0,
+                child: FlutterMap(
+                  options: MapOptions(
+                      center: LatLng(
+                          widget.center.latitude, widget.center.longitude),
+                      zoom: 17.0,
+                      maxZoom: 20,
+                      minZoom: 6),
+                  mapController: _mapController,
+                  layers: [
+                    TileLayerOptions(
+                      urlTemplate:
+                          "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+                      subdomains: ['a', 'b', 'c'],
+                      // attributionBuilder: (_) {
+                      //   return Text("© OpenStreetMap contributors");
+                      // },
+                    ),
+                  ],
+                )),
+            Positioned(
+                //top: MediaQuery.of(context).size.height * 0.5,
+                left: 0,
+                right: 0,
+                bottom: 200,
+                top: 0,
+                child: IgnorePointer(
+                  child: Center(
+                    child: StatefulBuilder(builder: (context, setState) {
+                      return Container(
+                        decoration: BoxDecoration(
+                          color: Colors.blueAccent,
+                          border: Border.all(
+                            width: 0.5,
+                          ),
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: Text(
+                          _searchController.text,
+                          textAlign: TextAlign.center,
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      );
+                    }),
+                  ),
+                )),
+            Positioned(
+                left: 0,
+                right: 0,
+                bottom: 0,
+                top: 0,
+                child: IgnorePointer(
+                  child: Center(
+                    child: Image.asset('assets/images/pin.png',
+                        height: 200,
+                        scale: 3,
+                        opacity: const AlwaysStoppedAnimation<double>(1)),
+                  ),
+                )),
+            Positioned(
+                bottom: 260,
+                right: 5,
+                child: FloatingActionButton(
+                  heroTag: 'button_current_location',
+                  backgroundColor: Colors.white,
+                  onPressed: () {
+                    getCurrentLocation2().then((value) {
+                      lang = double.parse('${value.longitude}');
+                      latit = double.parse('${value.latitude}');
+                      setState(() {
+                        locationMessage = 'longitude:$lang, latitude:$latit';
+                        _mapController.move(
+                            LatLng(latit, lang), _mapController.zoom);
 
-          Positioned(
-              bottom: 250,
-              right: 5,
-              child: FloatingActionButton(
-                heroTag: 'button_current_location',
-                backgroundColor: widget.buttonColor,
-                onPressed: () {
-                  getCurrentLocation2().then((value) {
-                    lang = double.parse('${value.longitude}');
-                    latit = double.parse('${value.latitude}');
+                        _mapController.mapEventStream.listen((event) async {
+                          if (event is MapEventMoveEnd) {
+                            var client = http.Client();
+                            String url =
+                                'https://nominatim.openstreetmap.org/reverse?format=json&lat=${latit}&lon=${lang}&zoom=18&addressdetails=1';
 
-                    setState(() {
-                      locationMessage = 'longitude:$lang, latitude:$latit';
+                            var response = await client.post(Uri.parse(url));
+                            var decodedResponse =
+                                jsonDecode(utf8.decode(response.bodyBytes))
+                                    as Map<dynamic, dynamic>;
 
-                      _mapController.move(
-                          LatLng(latit, lang), _mapController.zoom);
-                           //  _searchController.text = ;
-                      _mapController.mapEventStream.listen((event) async {
-                        if (event is MapEventMoveEnd) {
-                          var client = http.Client();
-                          String url =
-                              'https://nominatim.openstreetmap.org/reverse?format=json&lat=${latit}&lon=${lang}&zoom=18&addressdetails=1';
+                            _searchController.text =
+                                decodedResponse['display_name'];
 
-                          var response = await client.post(Uri.parse(url));
-                          var decodedResponse =
-                              jsonDecode(utf8.decode(response.bodyBytes))
-                                  as Map<dynamic, dynamic>;
+                            setState(() {});
+                          }
+                        });
+                      });
+                      print('jalgas' + locationMessage);
+                    });
 
-                          _searchController.text =
-                              decodedResponse['display_name'];
-
-                          setState(() {});
-                        }
+                    pickData().then((value) {
+                      var a = value.address;
+                      setState(() {
+                        _searchController.text = a;
+                        print('jalgassss:${a}');
                       });
                     });
-                    print('jalgas' + locationMessage);
-                  });
+                  },
+                  child: Icon(
+                    Icons.my_location,
+                    color: Colors.black,
+                  ),
+                )),
+            Positioned(
+                top: 10,
+                left: 5,
+                child: FloatingActionButton(
+                  backgroundColor: Colors.white,
+                  onPressed: () {
+                    _key.currentState!.openDrawer();
+                  },
+                  child: Icon(
+                    Icons.menu,
+                    color: Colors.black,
+                  ),
+                )),
+            Positioned(
+              right: 0,
+              left: 0,
+              top: 500,
+              bottom: 0,
+              child: Padding(
+                padding: EdgeInsets.all(0.01),
+                child: Container(
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      // image: const DecorationImage(
+                      //   image: NetworkImage('https://flutter.github.io/assets-for-api-docs/assets/widgets/owl-2.jpg'),
+                      //   fit: BoxFit.cover,
+                      // ),
+                      //   border: Border.all(
+                      //     width: 1,
+                      //   ),
+                      //   borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: Column(
+                      children: [
+                        DefaultTabController(
+                            length: 3,
+                            child: Column(
+                              children: [
+                                TabBar(
+                                    indicatorColor: Color(0xFFFE8C68),
+                                    unselectedLabelColor: Color(0xFF555555),
+                                    labelColor: Color(0xFFFE8C68),
+                                    labelPadding:
+                                        EdgeInsets.symmetric(horizontal: 5.0),
+                                    tabs: [
+                                      Tab(
+                                        text: 'Такси',
+                                      ),
+                                      Tab(
+                                        text: 'Доставка',
+                                      ),
+                                      Tab(
+                                        text: 'Семейное поездки',
+                                      ),
+                                    ]),
+                                SizedBox(
+                                  height: 5,
+                                ),
+                                Container(
+                                  height: 150.0,
+                                  child: TabBarView(
 
-
-                  pickData().then((value){
-                    var a = value.address;
-                    setState(() {
-                      _searchController.text = a;
-                      print('jalgassss:${a}');
-                    });
-                  });
-                },
-                child: Icon(
-                  Icons.my_location,
-                  color: Colors.black,
-                ),
-              )),
-          // Positioned(
-          //   top: 0,
-          //   left: 0,
-          //   right: 0,
-          //   child: Container(
-          //     margin: const EdgeInsets.all(15),
-          //     decoration: BoxDecoration(
-          //       color: Colors.white,
-          //       borderRadius: BorderRadius.circular(5),
-          //     ),
-          //     child: Column(
-          //       children: [
-          //         StatefulBuilder(builder: ((context, setState) {
-          //           return ListView.builder(
-          //               shrinkWrap: true,
-          //               physics: const NeverScrollableScrollPhysics(),
-          //               itemCount: _options.length > 5 ? 5 : _options.length,
-          //               itemBuilder: (context, index) {
-          //                 return ListTile(
-          //                   title: Text(_options[index].displayname),
-          //                   subtitle: Text(
-          //                       '${_options[index].lat},${_options[index].lon}'),
-          //                   onTap: () {
-          //                     _mapController.move(
-          //                         LatLng(
-          //                             _options[index].lat, _options[index].lon),
-          //                         15.0);
-          //
-          //                     _focusNode.unfocus();
-          //                     _options.clear();
-          //                     setState(() {});
-          //                   },
-          //                 );
-          //               });
-          //         })),
-          //       ],
-          //     ),
-          //   ),
-          // ),
-          // Positioned(
-          //   bottom: 0,
-          //   left: 0,
-          //   right: 0,
-          //   child: Center(
-          //     child: Padding(
-          //       padding: const EdgeInsets.all(8.0),
-          //       child: WideButton(widget.buttonText, onPressed: () async {
-          //         pickData().then((value) {
-          //           widget.onPicked(value);
-          //         });
-          //       }, backgroundcolor: widget.buttonColor),
-          //     ),
-          //   ),
-          // )
-        ],
+                                    children: [
+                                      Container(
+                                        child: ListView(
+                                          scrollDirection: Axis.horizontal,
+                                          children: [
+                                            ServicesCard(urls[0], 'Эконом', '',
+                                              5, context,),
+                                            ServicesCard(urls[0], 'Эконом', 'jjjj',
+                                                5, context),
+                                            ServicesCard(urls[2], 'Люкс', '', 3,
+                                                context),
+                                            ServicesCard(urls[2], 'Комфорт', '',
+                                                6, context),
+                                          ],
+                                        ),
+                                      ),
+                                      Container(
+                                        child: ListView(
+                                          scrollDirection: Axis.horizontal,
+                                          children: [
+                                            ServicesCard(
+                                                urls[4],
+                                                'Быстрая доставка',
+                                                '',
+                                                3,
+                                                context),
+                                            ServicesCard(urls[5], 'Доставка',
+                                                '', 2, context),
+                                            ServicesCard(urls[6], 'Доставка',
+                                                '', 1, context),
+                                          ],
+                                        ),
+                                      ),
+                                      Container(
+                                        child: ListView(
+                                          scrollDirection: Axis.horizontal,
+                                          children: [
+                                            ServicesCard(urls[7], 'На отдых',
+                                                '', 5, context),
+                                            ServicesCard(urls[8], 'Мероприятия',
+                                                '', 3, context),
+                                            ServicesCard(urls[9], 'Путешествия',
+                                                '', 6, context),
+                                          ],
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ))
+                      ],
+                    )),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -296,52 +402,9 @@ class _OpenStreetMapExampleState extends State<OpenStreetMapExample> {
         jsonDecode(utf8.decode(response.bodyBytes)) as Map<dynamic, dynamic>;
     String displayName = decodedResponse['display_name'];
 
-
     _searchController.text = decodedResponse['display_name'];
     return PickedData(center, displayName);
   }
-
-  // Future<PickedData2> PickedData2() async {
-  //   LatLong center = LatLong(
-  //       _mapController.center.latitude, _mapController.center.longitude);
-  //   var client = http.Client();
-  //   String url =
-  //       'https://nominatim.openstreetmap.org/reverse?format=json&lat=${_mapController.center.latitude}&lon=${_mapController.center.longitude}&zoom=18&addressdetails=1';
-  //
-  //   var response = await client.post(Uri.parse(url));
-  //   var decodedResponse =
-  //   jsonDecode(utf8.decode(response.bodyBytes)) as Map<dynamic, dynamic>;
-  //   String displayName = decodedResponse['display_name'];
-  //   //_searchController.text = decodedResponse['display_name'];
-  //   return PickedData2(address);
-  // }
-}
-
-
-
-class OSMdata {
-  final String displayname;
-  final double lat;
-  final double lon;
-
-
-  OSMdata({required this.displayname, required this.lat, required this.lon});
-
-  @override
-  String toString() {
-    return '$displayname, $lat, $lon';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    if (other.runtimeType != runtimeType) {
-      return false;
-    }
-    return other is OSMdata && other.displayname == displayname;
-  }
-
-  @override
-  int get hashCode => Object.hash(displayname, lat, lon);
 }
 
 class LatLong {
@@ -355,9 +418,8 @@ class PickedData {
   final LatLong latLong;
   final String address;
 
-  PickedData( this.latLong,this.address);
+  PickedData(this.latLong, this.address);
 }
-
 
 Future<Position> getCurrentLocation2() async {
   bool serviceEnable = await Geolocator.isLocationServiceEnabled();

@@ -1,17 +1,11 @@
-import 'dart:collection';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_jobs/screens/openstreet/example.dart';
-import 'package:flutter_jobs/screens/repository/user_repository.dart';
-
-import '../auth/auth_page.dart';
-
-import '../home_screen.dart';
-import '../models/user.dart';
 import 'package:open_street_map_search_and_pick/open_street_map_search_and_pick.dart';
-
-import '../note_reader.dart';
-import '../openstreet/open_street_map.dart';
+import '../auth/auth_page.dart';
+import '../models/user.dart';
+import '../profil/profil_persons.dart';
+import '../repository/user_repository.dart';
+import 'package:latlong2/latlong.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -26,17 +20,22 @@ class HomePage extends StatelessWidget {
           if (value != null) {
             return Builder(
               builder: (context) {
-                if (!value.isVerified!) {
+                if (value.latlng == 0) {
                   return AuthPage(
                     page: 2,
                     uid: value.uid,
                   );
-                }else {
-
-                // } else if (value.'mina jerin birinshi baslaw kerek!!!!') {
-                //   return OpenStreetMapExample();
-                // } else {
-                  return MyApp2();
+                } else if (!value.isVerified!) {
+                  return AuthPage(
+                    page: 3,
+                    uid: value.uid,
+                  );
+                } else {
+                  return OpenStreetMapExample(
+                    buttonColor: Colors.blueAccent,
+                    center:
+                        LatLng(value.latlng!.latitude, value.latlng!.longitude),
+                  );
                 }
               },
             );
@@ -48,20 +47,3 @@ class HomePage extends StatelessWidget {
     );
   }
 }
-// OpenStreetMapSearchAndPick(
-// center: LatLong(42.457247, 59.607034),
-// // buttonColor: Colors.blue,
-//
-// // buttonText: 'Set Current Location',
-// onPicked: (pickedData) {
-// // print(pickedData.latLong.latitude);
-// // print(pickedData.latLong.longitude);
-// // print(pickedData.address);
-// // Navigator.push(
-// //     context,
-// //     MaterialPageRoute(
-// //       builder: (context) =>
-// //           HomeScreen( address: pickedData.address,geo: pickedData.latLong,),
-// //     ));
-// },
-// );

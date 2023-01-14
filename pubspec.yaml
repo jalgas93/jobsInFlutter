@@ -71,6 +71,7 @@ dev_dependencies:
   equatable: ^2.0.5
   sms_autofill: ^2.2.0
   latlng: ^0.2.0
+  image_picker: ^0.8.6
 
 
 
@@ -91,8 +92,11 @@ flutter:
     - assets/img1.png
     #   - images/a_dot_ham.jpeg
 
-    - assets/images/
-    - assets/icons/
+    - assets/images/pin.png
+    - assets/images/circle_pin.png
+    - assets/images/cty.png
+    - assets/images/jalgas.jpg
+
 
 
 
