@@ -31,9 +31,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
   Stream<AuthState> _phoneAuthVerificationToState(
       PhoneNumberVerificationEvent event) async* {
-    yield LoadingAuthState();
-    await AuthService.instance.verifyPhoneSendOtp(event.phone,
-        completed: (credential) {
+    //yield LoadingAuthState();
+    await AuthService.instance.verifyPhoneSendOtp(event.phone, completed: (credential) {
       print('Completed');
       add(CompletedAuthEvent(credential));
     }, failed: (error) {
@@ -49,7 +48,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   }
 
   Stream<AuthState> _setUpAccount(SignUpEvent event) async* {
-    yield LoadingAuthState();
+    //yield LoadingAuthState();
     final user = await UserRepository.instance!
         .setUpAccount(event.uid, event.firstname, event.lastname,event.isActive,event.latLng);
     yield LoggedInState(user?.uid, user?.firstname, user?.lastname,user?.isActive,user?.latlng);

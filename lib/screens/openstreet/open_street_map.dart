@@ -4,7 +4,6 @@ import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:open_street_map_search_and_pick/open_street_map_search_and_pick.dart';
 
-
 import '../serviceCard/service_card.dart';
 
 // void main() => runApp(MaterialApp(
@@ -39,7 +38,10 @@ class _MyAppState extends State<MyApp2> {
           title: Text("Flutter Demo version"),
           backgroundColor: AppStyle.mainColor,
           leading: GestureDetector(
-            child: Icon(Icons.arrow_back_ios, color: Colors.black,),
+            child: Icon(
+              Icons.arrow_back_ios,
+              color: Colors.black,
+            ),
             onTap: () {
               Navigator.pop(context);
             },
@@ -52,27 +54,6 @@ class _MyAppState extends State<MyApp2> {
                 child: Padding(
                   padding: EdgeInsets.all(1.0),
                   child: Column(children: [
-                    Container(
-                        height: 500,
-                        width: 500,
-                        child:OpenStreetMapSearchAndPick(
-                          center: LatLong(42.457247, 59.607034),
-// buttonColor: Colors.blue,
-
-// buttonText: 'Set Current Location',
-                          onPicked: (pickedData) {
-// print(pickedData.latLong.latitude);
-// print(pickedData.latLong.longitude);
-// print(pickedData.address);
-// Navigator.push(
-//     context,
-//     MaterialPageRoute(
-//       builder: (context) =>
-//           HomeScreen( address: pickedData.address,geo: pickedData.latLong,),
-//     ));
-                          },
-                        ),
-                    ),
                     SizedBox(
                       height: 5,
                     ),
@@ -86,7 +67,7 @@ class _MyAppState extends State<MyApp2> {
                                 unselectedLabelColor: Color(0xFF555555),
                                 labelColor: Color(0xFFFE8C68),
                                 labelPadding:
-                                EdgeInsets.symmetric(horizontal: 5.0),
+                                    EdgeInsets.symmetric(horizontal: 5.0),
                                 tabs: [
                                   Tab(
                                     text: 'Такси',
@@ -154,38 +135,8 @@ class _MyAppState extends State<MyApp2> {
                   ]),
                 ),
               ),
-
             ],
           ),
         ));
   }
 }
-// }FlutterMap(
-//
-// options: MapOptions(
-// center: LatLng(42.448214, 59.602192), zoom: 13.0),
-// layers: [
-// TileLayerOptions(
-// urlTemplate:
-// 'https://tile.openstreetmap.org/{z}/{x}/{y}.png'),
-//
-// MarkerLayerOptions(
-// markers: [
-// Marker(
-// width: 30.0,
-// height: 30.0,
-// point: LatLng(42.457247, 59.607034),
-// builder: (ctx) => Container(
-// child: Container(
-// child: Icon(
-// Icons.location_on,
-// color: Colors.blueAccent,
-// size: 40,
-// ),
-// ),
-// ),
-// )
-// ],
-// )
-// ],
-// ),

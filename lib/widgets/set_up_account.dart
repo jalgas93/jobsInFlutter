@@ -17,9 +17,6 @@ class SetUpAccount extends StatelessWidget {
   final TextEditingController? firstnameController;
   final TextEditingController? lastnameController;
 
-
-
-
   //final TextEditingController? phoneController;
 
   @override
@@ -68,14 +65,15 @@ class SetUpAccount extends StatelessWidget {
                             width: 20,
                           ),
                           Expanded(
-                              child: TextField(
-                            controller: firstnameController,
-                            keyboardType: TextInputType.text,
-                            decoration: InputDecoration(
-                              border: InputBorder.none,
-                              hintText: "Имя",
+                            child: TextField(
+                              controller: firstnameController,
+                              keyboardType: TextInputType.text,
+                              decoration: InputDecoration(
+                                border: InputBorder.none,
+                                hintText: "Имя",
+                              ),
                             ),
-                          ))
+                          )
                         ],
                       ),
                     ),

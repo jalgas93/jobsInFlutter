@@ -31,7 +31,6 @@ class _AuthPageState extends State<AuthPage> {
       "разрешите доступ к ${'\n'}геолокации в настройках ${'\n'} "
       "телефона ";
   late double lang;
-
   late double latit;
 
   @override
@@ -41,8 +40,6 @@ class _AuthPageState extends State<AuthPage> {
     _pageIndex = widget.page;
     super.initState();
   }
-
-
 
   TextEditingController _phoneController = TextEditingController();
   TextEditingController _otpController = TextEditingController();
@@ -92,9 +89,6 @@ class _AuthPageState extends State<AuthPage> {
               ),
             ),
             _buildFloatActionButton(state, context),
-           // _buildTabBar(),
-          //  a(),
-
           ],
         );
       },
@@ -120,70 +114,6 @@ class _AuthPageState extends State<AuthPage> {
     return await Geolocator.getCurrentPosition();
   }
 
-
-// Positioned a(){
-//     return Positioned(child: Container(
-//       padding:EdgeInsets.all(10),
-//       child:Stack(
-//         children: <Widget>[
-//           Positioned(
-//             top: 30,
-//             left: 30,
-//             height:250,
-//             width: 250,
-//             child: Container(
-//               width: 150,
-//               height: 150,
-//               color: Colors.green[300],
-//               child: Text(
-//                 'Green',
-//                 style: TextStyle(
-//                     color: Colors.white,
-//                     fontSize: 20
-//                 ),
-//               ),
-//             ),
-//           ),
-//           Positioned(
-//             top: 70,
-//             left:60,
-//             width: 250,
-//             height: 250,
-//             child: Container(
-//               width:150,
-//               height:150,
-//               color: Colors.red[400],
-//               child: Text(
-//                 'Red',
-//                 style: TextStyle(color: Colors.white,
-//                     fontSize: 20),
-//               ),
-//             ),
-//           ),
-//           Positioned(
-//             top: 130,
-//             left: 90,
-//             width: 250,
-//             height: 250,
-//             child: Container(
-//               width: 80,
-//               height: 80,
-//               color: Colors.purple[300],
-//               child: Text(
-//                 'Purple',
-//                 style: TextStyle(color: Colors.white,
-//                     fontSize: 20),
-//               ),
-//             ),
-//           ),
-//         ],
-//       ),
-//     ),
-//     );
-// }
-
-
-
   Positioned _buildFloatActionButton(AuthState state, BuildContext context) {
     return Positioned(
       bottom: 0,
@@ -195,8 +125,7 @@ class _AuthPageState extends State<AuthPage> {
               state is LoadingAuthState ? Colors.grey[300] : CityTheme.cityblue,
           child: Icon(
               _pageIndex == 2 ? Icons.check_rounded : Icons.arrow_forward_ios),
-          onPressed: state is LoadingAuthState
-              ? null
+          onPressed: state is LoadingAuthState ? null
               : () {
                   if (_phoneController.text.isNotEmpty &&
                       state is AuthInitialState &&
@@ -217,9 +146,9 @@ class _AuthPageState extends State<AuthPage> {
                             state.verificationId,
                             '+998${_phoneController.text}'));
                     setState(() {
-                      _pageIndex = 2;
+                      _pageIndex = 3;
                     });
-                  } else if (_pageIndex == 2) {
+                  } else if (_pageIndex == 3) {
                     getCurrentLocation().then((value) {
                       lang = double.parse('${value.longitude}');
                       latit = double.parse('${value.latitude}');
@@ -229,9 +158,9 @@ class _AuthPageState extends State<AuthPage> {
                       print('jalgas' + locationMessage);
                     });
                     setState(() {
-                      _pageIndex = 3;
+                      _pageIndex = 2;
                     });
-                  } else if (_pageIndex == 3) {
+                  } else if (_pageIndex == 2) {
                     BlocProvider.of<AuthBloc>(context).add(
                       SignUpEvent(
                         _firstnameController.text,

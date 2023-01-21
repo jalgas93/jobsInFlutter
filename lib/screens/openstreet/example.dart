@@ -171,7 +171,7 @@ class _OpenStreetMapExampleState extends State<OpenStreetMapExample> {
                   layers: [
                     TileLayerOptions(
                       urlTemplate:
-                          "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+                      'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
                       subdomains: ['a', 'b', 'c'],
                       // attributionBuilder: (_) {
                       //   return Text("© OpenStreetMap contributors");
@@ -280,110 +280,110 @@ class _OpenStreetMapExampleState extends State<OpenStreetMapExample> {
                     color: Colors.black,
                   ),
                 )),
-            Positioned(
-              right: 0,
-              left: 0,
-              top: 500,
-              bottom: 0,
-              child: Padding(
-                padding: EdgeInsets.all(0.01),
-                child: Container(
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      // image: const DecorationImage(
-                      //   image: NetworkImage('https://flutter.github.io/assets-for-api-docs/assets/widgets/owl-2.jpg'),
-                      //   fit: BoxFit.cover,
-                      // ),
-                      //   border: Border.all(
-                      //     width: 1,
-                      //   ),
-                      //   borderRadius: BorderRadius.circular(8),
-                    ),
-                    child: Column(
-                      children: [
-                        DefaultTabController(
-                            length: 3,
-                            child: Column(
-                              children: [
-                                TabBar(
-                                    indicatorColor: Color(0xFFFE8C68),
-                                    unselectedLabelColor: Color(0xFF555555),
-                                    labelColor: Color(0xFFFE8C68),
-                                    labelPadding:
-                                        EdgeInsets.symmetric(horizontal: 5.0),
-                                    tabs: [
-                                      Tab(
-                                        text: 'Такси',
-                                      ),
-                                      Tab(
-                                        text: 'Доставка',
-                                      ),
-                                      Tab(
-                                        text: 'Семейное поездки',
-                                      ),
-                                    ]),
-                                SizedBox(
-                                  height: 5,
-                                ),
-                                Container(
-                                  height: 150.0,
-                                  child: TabBarView(
-
-                                    children: [
-                                      Container(
-                                        child: ListView(
-                                          scrollDirection: Axis.horizontal,
-                                          children: [
-                                            ServicesCard(urls[0], 'Эконом', '',
-                                              5, context,),
-                                            ServicesCard(urls[0], 'Эконом', 'jjjj',
-                                                5, context),
-                                            ServicesCard(urls[2], 'Люкс', '', 3,
-                                                context),
-                                            ServicesCard(urls[2], 'Комфорт', '',
-                                                6, context),
-                                          ],
-                                        ),
-                                      ),
-                                      Container(
-                                        child: ListView(
-                                          scrollDirection: Axis.horizontal,
-                                          children: [
-                                            ServicesCard(
-                                                urls[4],
-                                                'Быстрая доставка',
-                                                '',
-                                                3,
-                                                context),
-                                            ServicesCard(urls[5], 'Доставка',
-                                                '', 2, context),
-                                            ServicesCard(urls[6], 'Доставка',
-                                                '', 1, context),
-                                          ],
-                                        ),
-                                      ),
-                                      Container(
-                                        child: ListView(
-                                          scrollDirection: Axis.horizontal,
-                                          children: [
-                                            ServicesCard(urls[7], 'На отдых',
-                                                '', 5, context),
-                                            ServicesCard(urls[8], 'Мероприятия',
-                                                '', 3, context),
-                                            ServicesCard(urls[9], 'Путешествия',
-                                                '', 6, context),
-                                          ],
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            ))
-                      ],
-                    )),
-              ),
-            ),
+            // Positioned(
+            //   right: 0,
+            //   left: 0,
+            //   top: 500,
+            //   bottom: 0,
+            //   child: Padding(
+            //     padding: EdgeInsets.all(0.01),
+            //     child: Container(
+            //         decoration: BoxDecoration(
+            //           color: Colors.white,
+            //           // image: const DecorationImage(
+            //           //   image: NetworkImage('https://flutter.github.io/assets-for-api-docs/assets/widgets/owl-2.jpg'),
+            //           //   fit: BoxFit.cover,
+            //           // ),
+            //           //   border: Border.all(
+            //           //     width: 1,
+            //           //   ),
+            //           //   borderRadius: BorderRadius.circular(8),
+            //         ),
+            //         child: Column(
+            //           children: [
+            //             DefaultTabController(
+            //                 length: 3,
+            //                 child: Column(
+            //                   children: [
+            //                     TabBar(
+            //                         indicatorColor: Color(0xFFFE8C68),
+            //                         unselectedLabelColor: Color(0xFF555555),
+            //                         labelColor: Color(0xFFFE8C68),
+            //                         labelPadding:
+            //                             EdgeInsets.symmetric(horizontal: 5.0),
+            //                         tabs: [
+            //                           Tab(
+            //                             text: 'Такси',
+            //                           ),
+            //                           Tab(
+            //                             text: 'Доставка',
+            //                           ),
+            //                           Tab(
+            //                             text: 'Семейное поездки',
+            //                           ),
+            //                         ]),
+            //                     SizedBox(
+            //                       height: 5,
+            //                     ),
+            //                     Container(
+            //                       height: 150.0,
+            //                       child: TabBarView(
+            //
+            //                         children: [
+            //                           Container(
+            //                             child: ListView(
+            //                               scrollDirection: Axis.horizontal,
+            //                               children: [
+            //                                 ServicesCard(urls[0], 'Эконом', '',
+            //                                   5, context,),
+            //                                 ServicesCard(urls[0], 'Эконом', 'jjjj',
+            //                                     5, context),
+            //                                 ServicesCard(urls[2], 'Люкс', '', 3,
+            //                                     context),
+            //                                 ServicesCard(urls[2], 'Комфорт', '',
+            //                                     6, context),
+            //                               ],
+            //                             ),
+            //                           ),
+            //                           Container(
+            //                             child: ListView(
+            //                               scrollDirection: Axis.horizontal,
+            //                               children: [
+            //                                 ServicesCard(
+            //                                     urls[4],
+            //                                     'Быстрая доставка',
+            //                                     '',
+            //                                     3,
+            //                                     context),
+            //                                 ServicesCard(urls[5], 'Доставка',
+            //                                     '', 2, context),
+            //                                 ServicesCard(urls[6], 'Доставка',
+            //                                     '', 1, context),
+            //                               ],
+            //                             ),
+            //                           ),
+            //                           Container(
+            //                             child: ListView(
+            //                               scrollDirection: Axis.horizontal,
+            //                               children: [
+            //                                 ServicesCard(urls[7], 'На отдых',
+            //                                     '', 5, context),
+            //                                 ServicesCard(urls[8], 'Мероприятия',
+            //                                     '', 3, context),
+            //                                 ServicesCard(urls[9], 'Путешествия',
+            //                                     '', 6, context),
+            //                               ],
+            //                             ),
+            //                           )
+            //                         ],
+            //                       ),
+            //                     ),
+            //                   ],
+            //                 ))
+            //           ],
+            //         )),
+            //   ),
+            // ),
           ],
         ),
       ),

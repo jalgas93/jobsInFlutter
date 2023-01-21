@@ -7,6 +7,43 @@
   "client": [
     {
       "client_info": {
+        "mobilesdk_app_id": "1:1054471424596:android:6125ef49e76fe835383bc1",
+        "android_client_info": {
+          "package_name": "com.jalgas.jobfordriver"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1054471424596-cnt1nmcvaod3dnse28qa72gfj3mg41jk.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.jalgas.jobfordriver",
+            "certificate_hash": "a33d2189667c29bf0a5e4bd011b4b150f7c37ae5"
+          }
+        },
+        {
+          "client_id": "1054471424596-aiq1p69nplkmd07usa35riblrfr3cvge.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAZvItzUSHKmH47L6oTa4QXf0bnR7J_YGE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1054471424596-aiq1p69nplkmd07usa35riblrfr3cvge.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
         "mobilesdk_app_id": "1:1054471424596:android:facd6f98058414e7383bc1",
         "android_client_info": {
           "package_name": "com.jobs.flutter_jobs"

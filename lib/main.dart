@@ -7,6 +7,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_jobs/screens/home/home_page.dart';
 import 'package:flutter_jobs/screens/home_screen.dart';
 import 'package:flutter_jobs/screens/openstreet/example.dart';
+import 'package:flutter_jobs/screens/repository/user_repository.dart';
+import 'package:flutter_jobs/screens/tabbar_bloc/tabbar_bloc.dart';
 import 'package:latlong2/latlong.dart';
 
 Future<void> main() async {
@@ -24,12 +26,15 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   late AuthBloc bloc;
+  late TabbarBloc blocTabbar;
 
   @override
   void initState() {
     // TODO: implement initState
     bloc = AuthBloc();
+    blocTabbar = TabbarBloc();
     bloc.add(LoginCurrentUserEvent());
+   // UserRepository.instance?.signInCurrentUser();
     super.initState();
   }
 
@@ -37,18 +42,23 @@ class _MyAppState extends State<MyApp> {
   void dispose() {
     // TODO: implement dispose
     bloc.close();
+    blocTabbar.close();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<AuthBloc>(
-      create: (context) => bloc,
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<AuthBloc>(
+          create: (BuildContext context) => bloc,
+        ),
+        BlocProvider<TabbarBloc>(
+          create: (BuildContext context) => blocTabbar,
+        ),
+      ],
       child: MaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: "Nukus",
-        home: HomePage()
-      ),
+          debugShowCheckedModeBanner: false, title: "Nukus", home: HomePage()),
     );
   }
 }

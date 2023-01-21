@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_jobs/screens/home/user_page.dart';
 import 'package:flutter_jobs/screens/openstreet/example.dart';
 import 'package:open_street_map_search_and_pick/open_street_map_search_and_pick.dart';
 import '../auth/auth_page.dart';
@@ -20,22 +21,18 @@ class HomePage extends StatelessWidget {
           if (value != null) {
             return Builder(
               builder: (context) {
-                if (value.latlng == 0) {
+                if (!value.isVerified!) {
                   return AuthPage(
-                    page: 2,
+                    page: 0,
                     uid: value.uid,
                   );
-                } else if (!value.isVerified!) {
+                } else if (value.latlng == 0) {
                   return AuthPage(
                     page: 3,
                     uid: value.uid,
                   );
                 } else {
-                  return OpenStreetMapExample(
-                    buttonColor: Colors.blueAccent,
-                    center:
-                        LatLng(value.latlng!.latitude, value.latlng!.longitude),
-                  );
+                  return UserPage(page: 0,uid: value.uid,latit: value.latlng!.latitude,long: value.latlng!.longitude);
                 }
               },
             );
@@ -47,3 +44,8 @@ class HomePage extends StatelessWidget {
     );
   }
 }
+// AuthPage(
+// page: 3,
+// uid: value.uid,
+// );
+//!value.isVerified!

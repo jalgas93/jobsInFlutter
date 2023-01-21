@@ -24,20 +24,59 @@ class UserRepository {
     return userNotifier.value;
   }
 
-  Future<User?> setUpAccount(
-      String? uid, String firstname, String lastname,bool? isActive,LatLng? latlng) async {
+  Future<User?> setUpAccount(String? uid, String firstname, String lastname,
+      bool? isActive, LatLng? latlng) async {
     await FirebaseFirestore.instance.collection('users').doc(uid).update({
       'firstname': firstname,
       'lastname': lastname,
       'isVerified': true,
       'isActive': isActive,
-      'latlng': {
-        'lat': latlng?.latitude,
-        'lng':latlng?.longitude
-      }
+      'latlng': {'lat': latlng?.latitude, 'lng': latlng?.longitude}
     });
     userNotifier.value = await UserRepository.instance!.getUser(uid);
-   // userNotifier.notifyListeners();
+    // userNotifier.notifyListeners();
+    return userNotifier.value;
+  }
+
+  Future<User?> setUpdateTabbarSend(
+      String? uid, String firstname, String address, String phone) async {
+    await FirebaseFirestore.instance
+        .collection('users')
+        .doc(uid)
+        .collection('userinfo')
+        .add({'firstname': firstname, 'address': address, 'phone': phone});
+    userNotifier.value = await UserRepository.instance!.getUser(uid);
+    // userNotifier.notifyListeners();
+    return userNotifier.value;
+  }
+
+  Future<User?> setUpdateTabbarAssept(
+    String? uid,
+    String firstname,
+    String address,
+    String carName,
+    String carColor,
+    String carNumber,
+      String phone,
+    int km,
+    int summa,
+  ) async {
+    await FirebaseFirestore.instance
+        .collection('users')
+        .doc(uid)
+        .collection('userinfo')
+        .add({
+      'firstname': firstname,
+      'address': address,
+      'carName': carName,
+      'carColor': carColor,
+      'carNumber': carNumber,
+      'phone': phone,
+      'km': km,
+      'summa': summa,
+    });
+    userNotifier.value = await UserRepository.instance!.getUser(uid);
+    // userNotifier.notifyListeners();
     return userNotifier.value;
   }
 
@@ -49,13 +88,21 @@ class UserRepository {
       return null;
     } else {
       Map<String, dynamic> data = userSnapshot.data() as Map<String, dynamic>;
+
+      print(data['uid']);
       print(data['firstname']);
       print(data['lastname']);
       //print(data['image']);
       print(data['isVerified']);
-      print(data['creatAt']);
-      print(data['latlng']);
-      print(data['uid']);
+      print(data['address']);
+      print(data['phone']);
+      print(data['km']);
+      print(data['summa']);
+      print(data['carName']);
+      print(data['carColor']);
+      print(data['carNumber']);
+      print(data['isActive']);
+
 
       userNotifier.value = User.fromjson(uid, data);
     }
@@ -79,12 +126,12 @@ class UserRepository {
     }
   }
 
-  //  var myUser = User();
-  // Future<User?> getUserInfo()async{
-  //   String uid = await auth.FirebaseAuth.instance.currentUser!.uid;
-  //   await FirebaseFirestore.instance.collection('users').doc(uid).snapshots().listen((event) {
-  //
-  //   })
-  // }
+//  var myUser = User();
+// Future<User?> getUserInfo()async{
+//   String uid = await auth.FirebaseAuth.instance.currentUser!.uid;
+//   await FirebaseFirestore.instance.collection('users').doc(uid).snapshots().listen((event) {
+//
+//   })
+// }
 
 }

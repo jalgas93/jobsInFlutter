@@ -71,8 +71,8 @@ class _HomeScreenState extends State<HomeScreen> {
           children: [
             Expanded(
               child: StreamBuilder<QuerySnapshot>(
-                stream: FirebaseFirestore.instance
-                    .collection("clientIswrite")
+                stream: FirebaseFirestore.instance.
+                collection("clientIswrite").doc('VIDY1jmz1COOj9PF7spN').collection('jalgas')
                     .snapshots(),
                 builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
@@ -106,20 +106,20 @@ class _HomeScreenState extends State<HomeScreen> {
           ],
         ),
       ),
-      // floatingActionButton: FloatingActionButton.extended(
-      //   onPressed: () {
-      //     //  Navigator.push(context,
-      //     // MaterialPageRoute(builder: (context) => NoteEditorScreen()));
-      //   },
-      //   label: Text("Add note"),
-      //   icon: Icon(Icons.add),
-      // ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: (){
-          _key.currentState!.openDrawer();
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: () {
+            Navigator.push(context,
+           MaterialPageRoute(builder: (context) => NoteEditorScreen()));
         },
-        child: Icon(Icons.menu,color: Colors.black,),
+        label: Text("Add note"),
+        icon: Icon(Icons.add),
       ),
+      // floatingActionButton: FloatingActionButton(
+      //   onPressed: (){
+      //     _key.currentState!.openDrawer();
+      //   },
+      //   child: Icon(Icons.menu,color: Colors.black,),
+      // ),
     );
   }
 }
