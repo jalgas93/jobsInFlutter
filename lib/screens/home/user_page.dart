@@ -120,6 +120,7 @@ class _UserPageState extends State<UserPage> {
                     buttonColor: Colors.blueAccent,
                     center: LatLng(widget.latit, widget.long),
                   ),
+
                   // _buildUserPanel(state, context)
                 ],
               ),

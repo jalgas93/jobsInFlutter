@@ -85,6 +85,7 @@ class _AuthPageState extends State<AuthPage> {
                     firstnameController: _firstnameController,
                     lastnameController: _lastnameController,
                   ),
+
                 ],
               ),
             ),
@@ -171,6 +172,8 @@ class _AuthPageState extends State<AuthPage> {
                       ),
                     );
                   }
+
+
                 },
         ),
       ),
