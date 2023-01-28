@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_jobs/screens/home/user_page.dart';
 import 'package:flutter_jobs/screens/note_editor_screen.dart';
 import 'package:flutter_jobs/screens/note_reader.dart';
 import 'package:flutter_jobs/style/app_style.dart';

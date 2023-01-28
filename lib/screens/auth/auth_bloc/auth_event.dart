@@ -60,3 +60,4 @@ class CodeSendEvent extends AuthEvent{
 
 }
 class LoginCurrentUserEvent extends AuthEvent {}
+

@@ -1,10 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_jobs/widgets/phone_textfield.dart';
 
-import '../screens/auth/auth_bloc/auth_state.dart';
-import '../screens/utils/images_assets.dart';
-import 'package:provider/provider.dart';
-
 class PhonePage extends StatelessWidget {
   const PhonePage({Key? key, required TextEditingController numberController})
       : _numberController = numberController,

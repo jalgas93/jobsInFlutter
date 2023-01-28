@@ -48,6 +48,7 @@ class User {
     }
     if (data.containsKey('km')) {
       km = data['km'];
+
     }
     if (data.containsKey('summa')) {
       summa = data['summa'];

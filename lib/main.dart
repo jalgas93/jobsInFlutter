@@ -4,6 +4,7 @@ import 'package:flutter_jobs/screens/auth/auth_bloc/auth_bloc.dart';
 import 'package:flutter_jobs/screens/auth/auth_bloc/auth_event.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_jobs/screens/geolocator/geolocator.dart';
 import 'package:flutter_jobs/screens/home/home_page.dart';
 import 'package:flutter_jobs/screens/home_screen.dart';
 import 'package:flutter_jobs/screens/openstreet/example.dart';
@@ -26,15 +27,12 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   late AuthBloc bloc;
-  late TabbarBloc blocTabbar;
 
   @override
   void initState() {
     // TODO: implement initState
     bloc = AuthBloc();
-    blocTabbar = TabbarBloc();
     bloc.add(LoginCurrentUserEvent());
-   // UserRepository.instance?.signInCurrentUser();
     super.initState();
   }
 
@@ -42,7 +40,6 @@ class _MyAppState extends State<MyApp> {
   void dispose() {
     // TODO: implement dispose
     bloc.close();
-    blocTabbar.close();
     super.dispose();
   }
 
@@ -52,9 +49,6 @@ class _MyAppState extends State<MyApp> {
       providers: [
         BlocProvider<AuthBloc>(
           create: (BuildContext context) => bloc,
-        ),
-        BlocProvider<TabbarBloc>(
-          create: (BuildContext context) => blocTabbar,
         ),
       ],
       child: MaterialApp(

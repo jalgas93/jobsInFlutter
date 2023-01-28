@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_jobs/screens/auth/auth_bloc/auth_bloc.dart';
@@ -13,6 +15,7 @@ import '../../widgets/otp_page.dart';
 import '../../widgets/phone_page.dart';
 import '../serviceCard/service_card.dart';
 import 'auth_bloc/auth_bloc.dart';
+import 'package:http/http.dart' as http;
 
 class AuthPage extends StatefulWidget {
   final int page;
@@ -26,7 +29,8 @@ class AuthPage extends StatefulWidget {
 
 class _AuthPageState extends State<AuthPage> {
   PageController? _controller = PageController();
-  int _pageIndex = 0;
+  late int _pageIndex;
+
   String locationMessage = "Для работы приложения ${'\n'} "
       "разрешите доступ к ${'\n'}геолокации в настройках ${'\n'} "
       "телефона ";
@@ -45,6 +49,7 @@ class _AuthPageState extends State<AuthPage> {
   TextEditingController _otpController = TextEditingController();
   TextEditingController _firstnameController = TextEditingController();
   TextEditingController _lastnameController = TextEditingController();
+  final TextEditingController _locationMessage = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -79,13 +84,12 @@ class _AuthPageState extends State<AuthPage> {
                       bloc: context.watch<AuthBloc>(),
                       phoneNumber: _phoneController.text),
                   GeolocatorWidget(
-                    locationMessage: locationMessage,
+                    locationMessage: locationMessage,latit: latit,lang: lang,
                   ),
                   SetUpAccount(
                     firstnameController: _firstnameController,
                     lastnameController: _lastnameController,
                   ),
-
                 ],
               ),
             ),
@@ -112,6 +116,7 @@ class _AuthPageState extends State<AuthPage> {
       return Future.error(
           "Location permissons are  permanentl danied, we cannot request permission");
     }
+
     return await Geolocator.getCurrentPosition();
   }
 
@@ -125,8 +130,9 @@ class _AuthPageState extends State<AuthPage> {
           backgroundColor:
               state is LoadingAuthState ? Colors.grey[300] : CityTheme.cityblue,
           child: Icon(
-              _pageIndex == 2 ? Icons.check_rounded : Icons.arrow_forward_ios),
-          onPressed: state is LoadingAuthState ? null
+              _pageIndex == 1 ? Icons.check_rounded : Icons.arrow_forward_ios),
+          onPressed: state is LoadingAuthState
+              ? null
               : () {
                   if (_phoneController.text.isNotEmpty &&
                       state is AuthInitialState &&
@@ -147,9 +153,9 @@ class _AuthPageState extends State<AuthPage> {
                             state.verificationId,
                             '+998${_phoneController.text}'));
                     setState(() {
-                      _pageIndex = 3;
+                      _pageIndex = 2;
                     });
-                  } else if (_pageIndex == 3) {
+                  } else if (_pageIndex == 2) {
                     getCurrentLocation().then((value) {
                       lang = double.parse('${value.longitude}');
                       latit = double.parse('${value.latitude}');
@@ -159,9 +165,9 @@ class _AuthPageState extends State<AuthPage> {
                       print('jalgas' + locationMessage);
                     });
                     setState(() {
-                      _pageIndex = 2;
+                      _pageIndex = 3;
                     });
-                  } else if (_pageIndex == 2) {
+                  } else if (_pageIndex == 3) {
                     BlocProvider.of<AuthBloc>(context).add(
                       SignUpEvent(
                         _firstnameController.text,
@@ -172,8 +178,6 @@ class _AuthPageState extends State<AuthPage> {
                       ),
                     );
                   }
-
-
                 },
         ),
       ),
@@ -188,11 +192,3 @@ class _AuthPageState extends State<AuthPage> {
     });
   }
 }
-//
-// onPageChanged: (page) {
-// if (page == _allPages.length &&
-// (_controller.index + 1) < _controller.length) {
-// _controller.animateTo(_controller.index + 1);
-// }
-// },
-// itemCount: _allPages.length + 1,

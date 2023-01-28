@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_jobs/widgets/theme.dart';
 import 'package:latlng/latlng.dart';
-
 import 'city_textfield.dart';
 
 class SetUpAccount extends StatelessWidget {
@@ -52,7 +51,6 @@ class SetUpAccount extends StatelessWidget {
                     SizedBox(
                       height: 50,
                     ),
-
                     Container(
                       height: 55,
                       decoration: BoxDecoration(
@@ -77,7 +75,6 @@ class SetUpAccount extends StatelessWidget {
                         ],
                       ),
                     ),
-
                     SizedBox(
                       height: 20,
                     ),
@@ -107,26 +104,6 @@ class SetUpAccount extends StatelessWidget {
                     SizedBox(
                       height: 30,
                     ),
-
-                    // Row(
-                    //   children: [
-                    //     Expanded(
-                    //       child: CityTextField(
-                    //         label: 'First Name',
-                    //         controller: firstnameController,
-                    //       ),
-                    //     ),
-                    //     SizedBox(
-                    //       width: CityTheme.elementSpacing,
-                    //     ),
-                    //     Expanded(
-                    //       child: CityTextField(
-                    //         label: 'Last Name',
-                    //         controller: lastnameController,
-                    //       ),
-                    //     )
-                    //   ],
-                    // )
                   ],
                 ),
               )

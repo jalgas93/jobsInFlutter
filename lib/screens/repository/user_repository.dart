@@ -34,7 +34,6 @@ class UserRepository {
       'latlng': {'lat': latlng?.latitude, 'lng': latlng?.longitude}
     });
     userNotifier.value = await UserRepository.instance!.getUser(uid);
-    // userNotifier.notifyListeners();
     return userNotifier.value;
   }
 
@@ -46,7 +45,6 @@ class UserRepository {
         .collection('userinfo')
         .add({'firstname': firstname, 'address': address, 'phone': phone});
     userNotifier.value = await UserRepository.instance!.getUser(uid);
-    // userNotifier.notifyListeners();
     return userNotifier.value;
   }
 
@@ -57,7 +55,7 @@ class UserRepository {
     String carName,
     String carColor,
     String carNumber,
-      String phone,
+    String phone,
     int km,
     int summa,
   ) async {
@@ -76,7 +74,6 @@ class UserRepository {
       'summa': summa,
     });
     userNotifier.value = await UserRepository.instance!.getUser(uid);
-    // userNotifier.notifyListeners();
     return userNotifier.value;
   }
 
@@ -103,7 +100,6 @@ class UserRepository {
       print(data['carNumber']);
       print(data['isActive']);
 
-
       userNotifier.value = User.fromjson(uid, data);
     }
     return userNotifier.value;
@@ -126,12 +122,23 @@ class UserRepository {
     }
   }
 
-//  var myUser = User();
-// Future<User?> getUserInfo()async{
-//   String uid = await auth.FirebaseAuth.instance.currentUser!.uid;
-//   await FirebaseFirestore.instance.collection('users').doc(uid).snapshots().listen((event) {
-//
-//   })
-// }
+  Future<User?> updateDriverLocation(String? uid, LatLng position) async {
+    if (uid != null) {
+      await FirebaseFirestore.instance.collection('users').doc(uid).update({
+        'latlng': {
+          'lat': position.latitude,
+          'lng': position.longitude,
+        },
+      });
 
+      return userNotifier.value;
+    }
+  }
+
+  Future<User?> updateOnlinePresense(String? uid, bool isActive) async {
+    if (uid != null) {
+      await FirebaseFirestore.instance.collection('users').doc(uid).update({'is_active': isActive});
+      return userNotifier.value;
+    }
+  }
 }

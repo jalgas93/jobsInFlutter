@@ -2,7 +2,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-
 class PersonsProfil extends StatefulWidget {
   const PersonsProfil({Key? key}) : super(key: key);
 
@@ -11,22 +10,6 @@ class PersonsProfil extends StatefulWidget {
 }
 
 class _PersonsProfilState extends State<PersonsProfil> {
-  // TextEditingController  firstname  = TextEditingController();
-  // TextEditingController  lastname  = TextEditingController();
-  // GlobalKey<FormState> formKey = GlobalKey();
-  //
-  // final ImagePicker _picker = ImagePicker();
-  // File? selectedImage;
-
-//   getImage(ImageSource source) async{
-// final XFile? image = await _picker.pickImage(source: source);
-//  if (image!=null) {
-//   // selectedImage  = File(image.path, fileName)
-//    setState(() {
-//
-//    });
-//  }
-//   }
 
   @override
   Widget build(BuildContext context) {

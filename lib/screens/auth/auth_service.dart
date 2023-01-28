@@ -15,8 +15,6 @@ class AuthService {
 
   FirebaseAuth? _auth = FirebaseAuth.instance;
 
-
-
   Future<void> verifyPhoneSendOtp(String phone,
       {void Function(PhoneAuthCredential)? completed,
       void Function(FirebaseAuthException)? failed,
@@ -28,11 +26,6 @@ class AuthService {
         verificationFailed: failed!,
         codeSent: codeSent!,
         codeAutoRetrievalTimeout: codeAutoRetrievalTimeout!);
-  }
-
-  Future<String?> sendEvent(String name,String address, int number) async{
-
-
   }
 
   Future<String?> verifyAndLogin(
@@ -61,8 +54,4 @@ class AuthService {
     }
   }
 
-  Future<String> getCredential(PhoneAuthCredential credential) async {
-    final authcredential = await _auth!.signInWithCredential(credential);
-    return authcredential.user!.uid;
-  }
 }

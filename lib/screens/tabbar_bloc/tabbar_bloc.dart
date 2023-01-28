@@ -13,16 +13,15 @@ class TabbarBloc extends Bloc<TabbarEvent, TabbarState> {
 
   @override
   Stream<TabbarState> mapEventToState(TabbarEvent event) async* {
-    // if (event is LoadingEvent) {
-    //   yield LoadingState();
-    // } else
-    if (event is SendEvent) {
+    if (event is LoadingEvent) {
       yield LoadingState();
+    } else if (event is SendEvent) {
+     // yield LoadingState();
     yield* _SendEventToState(event);
     } else if (event is ErrorEvent) {
       yield ErrorState(event.error);
     }  else if (event is AsseptEvent) {
-      yield LoadingState();
+     // yield LoadingState();
       yield* _AsseptEventToState(event);
     }
   }

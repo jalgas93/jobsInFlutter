@@ -22,10 +22,10 @@ class SendState extends TabbarState {
   final String? phone;
 
 //   final LatLng latLng;
-
-  SendState(this.uid,this.firstname, this.address, this.phone);
 //   final DateTime date;
 //   final bool isActive;
+  SendState(this.uid,this.firstname, this.address, this.phone);
+
 
 }
 
