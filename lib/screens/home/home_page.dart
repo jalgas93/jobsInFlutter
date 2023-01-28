@@ -19,7 +19,7 @@ class HomePage extends StatelessWidget {
               builder: (context) {
                 if (!value.isVerified!) {
                   return AuthPage(
-                    page: 3,
+                    page: 2,
                     uid: value.uid,
                   );
                 } else {

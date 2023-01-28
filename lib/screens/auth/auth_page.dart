@@ -29,13 +29,13 @@ class AuthPage extends StatefulWidget {
 
 class _AuthPageState extends State<AuthPage> {
   PageController? _controller = PageController();
-  late int _pageIndex;
+  late int _pageIndex =0;
 
   String locationMessage = "Для работы приложения ${'\n'} "
       "разрешите доступ к ${'\n'}геолокации в настройках ${'\n'} "
       "телефона ";
-  late double lang;
-  late double latit;
+   double lang =0;
+   double latit=0;
 
   @override
   void initState() {
